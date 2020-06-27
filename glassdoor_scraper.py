@@ -12,15 +12,28 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
     options = webdriver.ChromeOptions()
 
     # Uncomment the line below if you'd like to scrape without a new Chrome window every time.
-    # options.add_argument('headless')
+    options.add_argument('headless')
 
     # Change the path to where chromedriver is in your home folder.
     driver = webdriver.Chrome(
         executable_path=path, options=options)
     driver.set_window_size(1120, 1000)
-    url = 'https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword='+keyword+'&locT=N&locId=96&jobType='
-    #url = 'https://www.glassdoor.com/Job/jobs.htm?sc.keyword="' + keyword + \
-        #'"&locT=C&locId=1147401&locKeyword=San%20Francisco,%20CA&jobType=all&fromAge=-1&minSalary=0&includeNoSalaryJobs=true&radius=100&cityId=-1&minRating=0.0&industryId=-1&sgocId=-1&seniorityType=all&companyId=-1&employerSizes=0&applicationType=0&remoteWorkType=0'
+    # for the UK = 600
+    # url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword=" + \
+    #    keyword + "&sc.keyword=" + keyword + "&locT=N&locId=2&jobType="
+    # # for germany = 900
+    # url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword=" + \
+    #    keyword + "&sc.keyword=" + keyword + "&locT=N&locId=96&jobType="
+    # #url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=true&clickSource=searchBtn&typedKeyword=bioin&sc.keyword=" + \
+    #     keyword + "&locT=N&locId=96&jobType="
+    # # for USA =
+    url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword=" + \
+        keyword + "&sc.keyword=" + keyword + "&locT=N&locId=1&jobType="
+    # south korea = 10
+    # url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword="+keyword+"&sc.keyword="+keyword+"&locT=N&locId=135&jobType="
+
+    # url = 'https://www.glassdoor.com/Job/jobs.htm?sc.keyword="' + keyword + \
+    #'"&locT=C&locId=1147401&locKeyword=San%20Francisco,%20CA&jobType=all&fromAge=-1&minSalary=0&includeNoSalaryJobs=true&radius=100&cityId=-1&minRating=0.0&industryId=-1&sgocId=-1&seniorityType=all&companyId=-1&employerSizes=0&applicationType=0&remoteWorkType=0'
     driver.get(url)
     jobs = []
 
@@ -77,7 +90,7 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
 
             try:
                 salary_estimate = driver.find_element_by_xpath(
-                    './/span[@class="gray small salary"]').text
+                    './/span[@class="gray salary"]').text
             except NoSuchElementException:
                 salary_estimate = -1  # You need to set a "not found value. It's important."
 
